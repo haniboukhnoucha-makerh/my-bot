@@ -1,33 +1,22 @@
 "use client";
 import { useState } from "react";
 
-export default function CorrespondenceBot() {
-  const [messages, setMessages] = useState([]);
+export default function Home() {
   const [input, setInput] = useState("");
 
-  const handleSendMessage = async () => {
-    if (!input.trim()) return;
-    const newMessages = [...messages, { role: "user", content: input }];
-    setMessages(newMessages);
-    setInput("");
-
-    const response = await fetch("/api/chat", {
+  const send = async () => {
+    const res = await fetch("/api/chat", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: newMessages })
+      body: JSON.stringify({ messages: [{ role: "user", content: input }] })
     });
-
-    const data = await response.json();
-    setMessages([...newMessages, { role: "assistant", content: data.reply }]);
+    const data = await res.json();
+    alert(data.reply);
   };
 
   return (
     <div>
-      {messages.map((m, i) => (
-        <p key={i}>{m.content}</p>
-      ))}
       <input value={input} onChange={(e) => setInput(e.target.value)} />
-      <button onClick={handleSendMessage}>Send</button>
+      <button onClick={send}>Send</button>
     </div>
   );
 }
