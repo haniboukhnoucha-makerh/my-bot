@@ -20,7 +20,11 @@ export async function POST(req) {
     const reply = data.candidates[0].content.parts[0].text;
 
     return NextResponse.json({ reply });
-  } catch (error) {
+  } catch (error) {} catch (error) {
+  console.error("DEBUG ERROR:", error); // هادي غاتكتب الخطأ فـ Logs ديال Vercel
+  return NextResponse.json({ error: error.message }, { status: 500 });
+}
+
     return NextResponse.json({ error: "خطأ فالسيرفر" }, { status: 500 });
   }
 }
