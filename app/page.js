@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+impor t { useState } from "react";
 import { Send } from "lucide-react";
 
 export default function CorrespondenceBot() {
