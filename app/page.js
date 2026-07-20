@@ -1,6 +1,5 @@
 "use client";
-
-import  { useState } from "react";
+import { useState } from "react";
 import { Send } from "lucide-react";
 
 export default function CorrespondenceBot() {
@@ -15,13 +14,16 @@ export default function CorrespondenceBot() {
     setInput("");
 
     try {
-      const response = await fetch('/api/chat', { ...
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ messages: newMessages }),
       });
 
       const data = await response.json();
+      
       if (data.reply) {
         setMessages([...newMessages, { role: "assistant", content: data.reply }]);
       }
@@ -35,15 +37,16 @@ export default function CorrespondenceBot() {
       <div className="h-96 overflow-y-auto border p-4 mb-4">
         {messages.map((m, i) => (
           <p key={i} className={m.role === "user" ? "text-blue-600" : "text-green-600"}>
-            <strong>{m.role}:</strong> {m.content}
+            <strong>{m.role === "user" ? "أنت: " : "البوت: "}</strong>
+            {m.content}
           </p>
         ))}
       </div>
       <div className="flex gap-2">
-        <input 
-          className="border p-2 flex-grow" 
-          value={input} 
-          onChange={(e) => setInput(e.target.value)} 
+        <input
+          className="border p-2 flex-grow"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           placeholder="سولني..."
         />
         <button onClick={handleSendMessage} className="bg-black text-white p-2">
